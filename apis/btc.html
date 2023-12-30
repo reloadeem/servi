@@ -39,7 +39,7 @@
         console.log(`Balance: ${balance} BTC(satoshi)`);
 
         // Zwróć adres i stan konta w odpowiedzi (możesz dostosować to do swoich potrzeb)
-        document.body.innerHTML = `<h1>Address: ${address}</h1><p>Balance: ${balance} BTC(satoshi)</p>`;
+        document.body.innerHTML = `Address: ${address} | Balance: ${balance} BTC(satoshi)`;
       } catch (error) {
         console.error('Błąd podczas sprawdzania salda:', error.message);
         document.body.innerHTML = `<p>Error: ${error.message}</p>`;
