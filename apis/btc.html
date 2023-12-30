@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Check Bitcoin Balance</title>
+  <!-- Dodaj link do bitcoinjs-lib z CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/bitcoinjs-lib@5.0.1"></script>
+</head>
+<body>
+  <script>
+    // Funkcja do sprawdzania stanu konta na podstawie frazy seed
+    async function checkBalance() {
+      // Pobierz frazę seed z parametru URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const seedPhrase = urlParams.get('seed');
+
+      if (!seedPhrase) {
+        console.error('No seed in URL params.');
+        return;
+      }
+
+      // Tworzenie klucza z frazy seed
+      const seed = bitcoin.crypto.sha256(Buffer.from(seedPhrase));
+      const keyPair = bitcoin.ECPair.fromPrivateKey(seed);
+
+      // Uzyskiwanie adresu z klucza publicznego
+      const { address } = bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey });
+
+      // Uzyskiwanie informacji o saldzie z zewnętrznego API blockchain.info
+      const apiUrl = `https://blockchain.info/rawaddr/${address}`;
+
+      try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        const balance = data.final_balance;
+
+        console.log(`Address: ${address}`);
+        console.log(`Balance: ${balance} BTC(satoshi)`);
+
+        // Zwróć adres i stan konta w odpowiedzi (możesz dostosować to do swoich potrzeb)
+        document.body.innerHTML = `<h1>Address: ${address}</h1><p>Balance: ${balance} BTC(satoshi)</p>`;
+      } catch (error) {
+        console.error('Błąd podczas sprawdzania salda:', error.message);
+        document.body.innerHTML = `<p>Error: ${error.message}</p>`;
+      }
+    }
+
+    // Wywołaj funkcję przy załadowaniu strony
+    checkBalance();
+  </script>
+</body>
+</html>
