@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP Lookup</title>
+    <style>
+  body {
+    background-color: black;
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.container {
+    text-align: center;
+}
+
+input {
+    padding: 10px;
+    border-radius: 10px; /* Zaokrąglenie */
+    border: none;
+    outline: none;
+}
+
+button {
+    padding: 10px 20px; /* Poprawa rozmiaru przycisku */
+    background-color: #333; /* Kolor tła */
+    color: white;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px; /* Zaokrąglenie */
+}
+
+button:hover {
+    background-color: #555; /* Kolor tła po najechaniu myszką */
+}
+
+#result {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 10px; /* Zaokrąglenie wyników */
+    background-color: #222; /* Kolor tła wyników */
+}
+
+#portStatus {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 10px; /* Zaokrąglenie wyników */
+    background-color: #222; /* Kolor tła wyników */
+}
+</style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>
+    Dont use for doxxing. 
+      </h1>
+        <input type="text" id="ipInput" placeholder="IP">
+        <button onclick="lookupIP()">Check</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+      function lookupIP() {
+    const ipInput = document.getElementById('ipInput').value;
+
+    // Geolokalizacja IP
+    fetch(`https://ipapi.co/${ipInput}/json/`)
+        .then(response => response.json())
+        .then(data => {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <p>IP: ${data.ip}</p>
+                <p>Country: ${data.country_name}</p>
+                <p>City: ${data.city}</p>
+                <p>ISP: ${data.org}</p>
+                <p>Network: ${data.network}</p>
+                <p>Region: ${data.region}</p>
+                <p>Version: ${data.version}</p>
+                <p>ASN: ${data.asn}</p>
+                <p>Postal code: ${data.postal}</p>
+                <p>Location: ${data.latitude}, ${data.longitude}</p>
+                <p>TLD: ${data.country_tld}</p>
+                <p>Language: ${data.languages}</p>
+                <p>Timezone: ${data.timezone}, ${data.utc_offset}</p>
+                <p>Currency: ${data.currency}</p>
+
+            `;
+        })
+        .catch(error => console.error('Error:', error));
+
+    // Sprawdzanie portów
+    checkPorts(ipInput);
+}
+
+function checkPorts(ip) {
+    const portsToCheck = [80, 8080];
+
+    const portStatusDiv = document.getElementById('portStatus');
+    portStatusDiv.innerHTML = '<p>Checking port status...</p>';
+
+    portsToCheck.forEach(port => {
+        const url = `http://${ip}:${port}`;
+        fetch(url)
+            .then(response => {
+                if (response.ok) {
+                    portStatusDiv.innerHTML += `<p>Port ${port} is open</p>`;
+                } else {
+                    portStatusDiv.innerHTML += `<p>Port ${port} is closed</p>`;
+                }
+            })
+            .catch(error => {
+                portStatusDiv.innerHTML += `<p>Port ${port} is closed</p>`;
+            });
+    });
+}
+
+    </script>
+</body>
+</html>
