@@ -61,11 +61,21 @@
       fetch(apiUrl)
         .then(response => response.text())
         .then(data => {
-          document.getElementById('response').innerText = data;
+          // Parsuj odpowiedź jako HTML i wybierz tylko elementy <p>
+          var parser = new DOMParser();
+          var htmlDoc = parser.parseFromString(data, 'text/html');
+          var paragraphs = htmlDoc.querySelectorAll('p');
+
+          // Wyświetl zawartość paragrafów
+          var responseDiv = document.getElementById('response');
+          responseDiv.innerHTML = '';
+          paragraphs.forEach(paragraph => {
+            responseDiv.innerHTML += '<p>' + paragraph.innerHTML + '</p>';
+          });
         })
         .catch(error => {
-          console.error('error', error);
-          document.getElementById('response').innerText = 'error';
+          console.error('Błąd podczas wysyłania requestu:', error);
+          document.getElementById('response').innerText = 'Błąd podczas wysyłania requestu.';
         });
     }
   </script>
