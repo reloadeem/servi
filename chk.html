@@ -48,8 +48,8 @@
 </head>
 <body>
   <h1>XanChecker v5.1</h1>
-  <a href="https://t.me/xancheck" id="telegram-link" target="_blank">Link do Telegrama</a>
-  <textarea id="inputText" placeholder="Wprowadź tekst"></textarea>
+  <a href="https://t.me/xancheck" id="telegram-link" target="_blank">telegram url</a>
+  <textarea id="inputText" placeholder="paste ur cc"></textarea>
   <button onclick="sendRequest()">Check</button>
   <div id="response"></div>
 
@@ -64,8 +64,8 @@
           document.getElementById('response').innerText = data;
         })
         .catch(error => {
-          console.error('Błąd podczas wysyłania requestu:', error);
-          document.getElementById('response').innerText = 'Błąd podczas wysyłania requestu.';
+          console.error('error', error);
+          document.getElementById('response').innerText = 'error';
         });
     }
   </script>
