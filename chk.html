@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XanChecker v5.1</title>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    #telegram-link {
+      margin-bottom: 10px;
+    }
+
+    #response {
+      margin-top: 20px;
+      white-space: pre-line;
+    }
+
+    textarea {
+      width: 100%;
+      height: 100px;
+      resize: none;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 10px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>XanChecker v5.1</h1>
+  <a href="https://t.me/xancheck" id="telegram-link" target="_blank">Link do Telegrama</a>
+  <textarea id="inputText" placeholder="Wprowadź tekst"></textarea>
+  <button onclick="sendRequest()">Check</button>
+  <div id="response"></div>
+
+  <script>
+    function sendRequest() {
+      var textareaValue = document.getElementById('inputText').value;
+      var apiUrl = 'https://xanservices.us/apis/apple?cc=' + encodeURIComponent(textareaValue);
+
+      fetch(apiUrl)
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('response').innerText = data;
+        })
+        .catch(error => {
+          console.error('Błąd podczas wysyłania requestu:', error);
+          document.getElementById('response').innerText = 'Błąd podczas wysyłania requestu.';
+        });
+    }
+  </script>
+</body>
+</html>
