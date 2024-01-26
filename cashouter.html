@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XanCashouter (v5.1)</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.css">
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #000;
+        }
+
+        #particles-js {
+            height: 100vh;
+            width: 100vw;
+            position: absolute;
+        }
+
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #fff;
+        }
+
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #2ecc71;
+            color: #fff;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div id="particles-js"></div>
+
+<div class="container">
+    <h1>XanCashouter (v5.1)</h1>
+    <form>
+        <label for="address">Address [we will send all funds here]:</label><br>
+        <input type="text" id="address" name="address" placeholder="Enter your address" style="color: #000; background-color: #fff;"><br>
+        <label for="licenseKey">License Key:</label><br>
+        <input type="text" id="licenseKey" name="licenseKey" placeholder="Enter your license key" style="color: #000; background-color: #fff;"><br>
+        <button type="button" onclick="checklicense()">Login</button>
+    </form>
+    <p>Buy license here: <a href="https://t.me/roaxxxx" target="_blank" style="color: #3498db; text-decoration: none;">https://t.me/roaxxxx</a> - price 10$</p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script>
+    particlesJS("particles-js", {
+        "particles": {
+            "number": {
+                "value": 80
+            },
+            "color": {
+                "value": "#ffffff"
+            },
+            "shape": {
+                "type": "circle"
+            },
+            "opacity": {
+                "value": 0.5,
+                "random": true
+            },
+            "size": {
+                "value": 3,
+                "random": true
+            },
+            "move": {
+                "enable": true,
+                "speed": 2
+            }
+        }
+    });
+
+    function checklicense() {
+        // Add your buy license functionality here
+        alert("wrong license");
+    }
+</script>
+</body>
+</html>
